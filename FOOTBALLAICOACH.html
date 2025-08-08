@@ -1,0 +1,2416 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Football Master Enhanced - AI Learning Coach</title>
+
+    <meta name="description" content="Advanced AI football coach that learns and adapts to provide personalized coaching on rules, techniques, tactics, and more. Answers any football question intelligently.">
+
+   
+
+    <!-- Font Awesome for icons -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+   
+
+    <style>
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+
+        body {
+
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            background-color: #f8fafc;
+
+            color: #1e293b;
+
+            height: 100vh;
+
+            overflow: hidden;
+
+        }
+
+
+        .container {
+
+            display: flex;
+
+            height: 100vh;
+
+        }
+
+
+        /* Enhanced Sidebar */
+
+        .sidebar {
+
+            width: 340px;
+
+            background: white;
+
+            border-right: 1px solid #e2e8f0;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .sidebar-header {
+
+            padding: 24px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+
+            color: white;
+
+        }
+
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .logo-icon {
+
+            width: 48px;
+
+            height: 48px;
+
+            background: rgba(255, 255, 255, 0.2);
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 20px;
+
+        }
+
+
+        .logo-text h1 {
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            margin-bottom: 2px;
+
+        }
+
+
+        .logo-text p {
+
+            font-size: 14px;
+
+            opacity: 0.9;
+
+        }
+
+
+        .ai-badge {
+
+            background: rgba(255, 255, 255, 0.15);
+
+            padding: 4px 8px;
+
+            border-radius: 12px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            letter-spacing: 0.5px;
+
+            margin-top: 8px;
+
+            display: inline-block;
+
+        }
+
+
+        /* Question Analysis Display */
+
+        .analysis-panel {
+
+            padding: 16px 24px;
+
+            background: #f8fafc;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            font-size: 12px;
+
+        }
+
+
+        .analysis-item {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .analysis-label {
+
+            color: #64748b;
+
+            font-weight: 500;
+
+        }
+
+
+        .analysis-value {
+
+            color: #16a34a;
+
+            font-weight: 600;
+
+        }
+
+
+        .categories {
+
+            padding: 24px;
+
+            border-bottom: 1px solid #e2e8f0;
+
+        }
+
+
+        .categories h3 {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+            margin-bottom: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .category-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            background: none;
+
+            border: none;
+
+            text-align: left;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 8px;
+
+            transition: all 0.2s;
+
+            border: 1px solid transparent;
+
+        }
+
+
+        .category-btn:hover {
+
+            background-color: #f0fdf4;
+
+            border-color: #bbf7d0;
+
+        }
+
+
+        .category-btn i {
+
+            color: #9ca3af;
+
+            width: 18px;
+
+            font-size: 16px;
+
+        }
+
+
+        .category-btn:hover i {
+
+            color: #16a34a;
+
+        }
+
+
+        .category-btn span {
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            color: #374151;
+
+        }
+
+
+        .popular-questions {
+
+            padding: 24px;
+
+            flex: 1;
+
+            overflow-y: auto;
+
+        }
+
+
+        .popular-questions h3 {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #374151;
+
+            margin-bottom: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .question-btn {
+
+            width: 100%;
+
+            padding: 14px;
+
+            background: none;
+
+            border: none;
+
+            text-align: left;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            color: #6b7280;
+
+            margin-bottom: 8px;
+
+            transition: all 0.2s;
+
+            line-height: 1.4;
+
+            border: 1px solid transparent;
+
+        }
+
+
+        .question-btn:hover {
+
+            background-color: #f9fafb;
+
+            color: #111827;
+
+            border-color: #e5e7eb;
+
+        }
+
+
+        /* Enhanced Main Chat Area */
+
+        .main-chat {
+
+            flex: 1;
+
+            display: flex;
+
+            flex-direction: column;
+
+        }
+
+
+        .chat-header {
+
+            background: white;
+
+            border-bottom: 1px solid #e2e8f0;
+
+            padding: 24px;
+
+        }
+
+
+        .chat-header h2 {
+
+            font-size: 22px;
+
+            font-weight: 600;
+
+            color: #111827;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .chat-header p {
+
+            color: #6b7280;
+
+            font-size: 15px;
+
+        }
+
+
+        .status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 14px;
+
+            color: #6b7280;
+
+        }
+
+
+        .status-dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            background: #10b981;
+
+            border-radius: 50%;
+
+            animation: pulse 2s infinite;
+
+        }
+
+
+        @keyframes pulse {
+
+            0%, 100% { opacity: 1; }
+
+            50% { opacity: 0.5; }
+
+        }
+
+
+        .learning-indicator {
+
+            background: linear-gradient(90deg, #16a34a, #059669);
+
+            color: white;
+
+            padding: 4px 12px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-left: 12px;
+
+        }
+
+
+        .messages-container {
+
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 24px;
+
+        }
+
+
+        .message {
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .message-user {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+        }
+
+
+        .message-assistant {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+        }
+
+
+        .message-avatar {
+
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            font-size: 16px;
+
+        }
+
+
+        .avatar-user {
+
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+
+            color: white;
+
+        }
+
+
+        .avatar-assistant {
+
+            background: linear-gradient(135deg, #16a34a, #15803d);
+
+            color: white;
+
+        }
+
+
+        .message-content {
+
+            max-width: 520px;
+
+            padding: 18px;
+
+            border-radius: 16px;
+
+            position: relative;
+
+            line-height: 1.6;
+
+        }
+
+
+        .content-user {
+
+            background: linear-gradient(135deg, #16a34a, #15803d);
+
+            color: white;
+
+            border-bottom-right-radius: 6px;
+
+        }
+
+
+        .content-assistant {
+
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-top-left-radius: 6px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .message-time {
+
+            font-size: 12px;
+
+            color: #9ca3af;
+
+            margin-top: 8px;
+
+        }
+
+
+        .time-user {
+
+            text-align: right;
+
+        }
+
+
+        .time-assistant {
+
+            text-align: left;
+
+        }
+
+
+        /* Enhanced Coach Tips */
+
+        .coach-tip {
+
+            margin-top: 16px;
+
+            padding: 16px;
+
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+
+            border-radius: 12px;
+
+            border-left: 4px solid #16a34a;
+
+        }
+
+
+        .coach-tip-content {
+
+            color: #166534;
+
+            font-size: 14px;
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            font-weight: 500;
+
+        }
+
+
+        /* Question Analysis Badge */
+
+        .analysis-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            background: #f0f9ff;
+
+            color: #0369a1;
+
+            padding: 4px 10px;
+
+            border-radius: 12px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            margin-bottom: 12px;
+
+        }
+
+
+        /* Enhanced Loading */
+
+        .loading {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+            margin-bottom: 28px;
+
+        }
+
+
+        .loading-content {
+
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 16px;
+
+            border-top-left-radius: 6px;
+
+            padding: 18px;
+
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+        }
+
+
+        .loading-dots {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+
+        .loading-dots .dots {
+
+            display: flex;
+
+            gap: 6px;
+
+        }
+
+
+        .loading-dots .dot {
+
+            width: 8px;
+
+            height: 8px;
+
+            background: #16a34a;
+
+            border-radius: 50%;
+
+            animation: bounce 1.4s infinite ease-in-out both;
+
+        }
+
+
+        .loading-dots .dot:nth-child(1) { animation-delay: -0.32s; }
+
+        .loading-dots .dot:nth-child(2) { animation-delay: -0.16s; }
+
+
+        .loading-text {
+
+            color: #16a34a;
+
+            font-weight: 500;
+
+            font-size: 14px;
+
+        }
+
+
+        @keyframes bounce {
+
+            0%, 80%, 100% { transform: scale(0); }
+
+            40% { transform: scale(1); }
+
+        }
+
+
+        /* Enhanced Chat Input */
+
+        .chat-input {
+
+            background: white;
+
+            border-top: 1px solid #e2e8f0;
+
+            padding: 24px;
+
+        }
+
+
+        .input-form {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .input-container {
+
+            flex: 1;
+
+            position: relative;
+
+        }
+
+
+        .input-field {
+
+            width: 100%;
+
+            padding: 16px 52px 16px 20px;
+
+            border: 2px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            font-size: 15px;
+
+            outline: none;
+
+            transition: all 0.2s;
+
+            background: #fafafa;
+
+        }
+
+
+        .input-field:focus {
+
+            border-color: #16a34a;
+
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+
+            background: white;
+
+        }
+
+
+        .send-btn {
+
+            position: absolute;
+
+            right: 12px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            background: none;
+
+            border: none;
+
+            padding: 10px;
+
+            color: #9ca3af;
+
+            cursor: pointer;
+
+            border-radius: 8px;
+
+            transition: all 0.2s;
+
+        }
+
+
+        .send-btn:hover:not(:disabled) {
+
+            color: #16a34a;
+
+            background: #f0fdf4;
+
+        }
+
+
+        .send-btn:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .mic-btn {
+
+            padding: 16px;
+
+            background: linear-gradient(135deg, #16a34a, #15803d);
+
+            color: white;
+
+            border: none;
+
+            border-radius: 16px;
+
+            cursor: pointer;
+
+            transition: all 0.2s;
+
+            font-size: 16px;
+
+        }
+
+
+        .mic-btn:hover:not(:disabled) {
+
+            background: linear-gradient(135deg, #15803d, #166534);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .mic-btn:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .quick-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 16px;
+
+        }
+
+
+        .quick-btn {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 8px 14px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 24px;
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            cursor: pointer;
+
+            transition: all 0.2s;
+
+            font-weight: 500;
+
+        }
+
+
+        .quick-btn:hover:not(:disabled) {
+
+            background: #f0fdf4;
+
+            border-color: #bbf7d0;
+
+            color: #166534;
+
+        }
+
+
+        .quick-btn:disabled {
+
+            opacity: 0.5;
+
+            cursor: not-allowed;
+
+        }
+
+
+        .disclaimer {
+
+            text-align: center;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            padding: 12px;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+        }
+
+
+        /* Enhanced Content Formatting */
+
+        .structured-content {
+
+            line-height: 1.7;
+
+        }
+
+
+        .structured-content strong {
+
+            color: #111827;
+
+            font-weight: 600;
+
+        }
+
+
+        .structured-content ul {
+
+            margin: 12px 0;
+
+            padding-left: 20px;
+
+        }
+
+
+        .structured-content li {
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .structured-content p {
+
+            margin-bottom: 12px;
+
+        }
+
+
+        .structured-content p:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        /* Complexity Indicators */
+
+        .complexity-basic { border-left: 4px solid #10b981; }
+
+        .complexity-intermediate { border-left: 4px solid #f59e0b; }
+
+        .complexity-advanced { border-left: 4px solid #ef4444; }
+
+
+        /* Mobile responsiveness */
+
+        @media (max-width: 1024px) {
+
+            .sidebar {
+
+                display: none;
+
+            }
+
+           
+
+            .container {
+
+                flex-direction: column;
+
+            }
+
+           
+
+            .main-chat {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Enhanced Sidebar -->
+
+        <div class="sidebar">
+
+            <div class="sidebar-header">
+
+                <div class="logo">
+
+                    <div class="logo-icon">
+
+                        <i class="fas fa-brain"></i>
+
+                    </div>
+
+                    <div class="logo-text">
+
+                        <h1>Football Master Enhanced</h1>
+
+                        <p>AI Learning Coach</p>
+
+                        <p>Made By-Akshaj Anand VIII-C</p>
+
+                        <div class="ai-badge">
+
+                            <i class="fas fa-robot"></i> SMART AI
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Question Analysis Panel -->
+
+            <div class="analysis-panel" id="analysisPanel" style="display: none;">
+
+                <div class="analysis-item">
+
+                    <span class="analysis-label">Category:</span>
+
+                    <span class="analysis-value" id="analysisCategory">-</span>
+
+                </div>
+
+                <div class="analysis-item">
+
+                    <span class="analysis-label">Intent:</span>
+
+                    <span class="analysis-value" id="analysisIntent">-</span>
+
+                </div>
+
+                <div class="analysis-item">
+
+                    <span class="analysis-label">Complexity:</span>
+
+                    <span class="analysis-value" id="analysisComplexity">-</span>
+
+                </div>
+
+            </div>
+
+
+            <div class="categories">
+
+                <h3><i class="fas fa-bolt"></i> Quick Topics</h3>
+
+                <button class="category-btn" onclick="askQuestion('Tell me about advanced football rules and regulations')">
+
+                    <i class="fas fa-gavel"></i>
+
+                    <span>Rules & Regulations</span>
+
+                </button>
+
+                <button class="category-btn" onclick="askQuestion('Teach me advanced football skills and techniques')">
+
+                    <i class="fas fa-magic"></i>
+
+                    <span>Skills & Techniques</span>
+
+                </button>
+
+                <button class="category-btn" onclick="askQuestion('Compare top football players and their statistics')">
+
+                    <i class="fas fa-users"></i>
+
+                    <span>Players & Analytics</span>
+
+                </button>
+
+                <button class="category-btn" onclick="askQuestion('Recommend professional football equipment and gear')">
+
+                    <i class="fas fa-tshirt"></i>
+
+                    <span>Equipment & Gear</span>
+
+                </button>
+
+                <button class="category-btn" onclick="askQuestion('Explain football tactics and strategy')">
+
+                    <i class="fas fa-chess"></i>
+
+                    <span>Tactics & Strategy</span>
+
+                </button>
+
+            </div>
+
+
+            <div class="popular-questions">
+
+                <h3><i class="fas fa-fire"></i> Popular Questions</h3>
+
+                <button class="question-btn" onclick="askQuestion('What are the causes of indirect freekick?')">What are the causes of indirect freekick?</button>
+
+                <button class="question-btn" onclick="askQuestion('How to pass accurately in different situations?')">How to pass accurately in different situations?</button>
+
+                <button class="question-btn" onclick="askQuestion('Advanced knuckleball shooting technique')">Advanced knuckleball shooting technique</button>
+
+                <button class="question-btn" onclick="askQuestion('How to master ball juggling for better control?')">How to master ball juggling for better control?</button>
+
+                <button class="question-btn" onclick="askQuestion('Does goalkeeper get involved in offside rule?')">Does goalkeeper get involved in offside rule?</button>
+
+                <button class="question-btn" onclick="askQuestion('Can a goalkeeper be substituted during penalty situations?')">Can a goalkeeper be substituted during penalty situations?</button>
+
+                <button class="question-btn" onclick="askQuestion('How to head the ball correctly and safely?')">How to head the ball correctly and safely?</button>
+
+                <button class="question-btn" onclick="askQuestion('Is Jude Bellingham better than Jamal Musiala?')">Is Jude Bellingham better than Jamal Musiala?</button>
+
+                <button class="question-btn" onclick="askQuestion('What are the best midfielders of all time?')">What are the best midfielders of all time?</button>
+
+                <button class="question-btn" onclick="askQuestion('Are football studs better than barefoot playing?')">Are football studs better than barefoot playing?</button>
+
+                <button class="question-btn" onclick="askQuestion('How do professional teams use tactical formations?')">How do professional teams use tactical formations?</button>
+
+                <button class="question-btn" onclick="askQuestion('What training methods improve football fitness?')">What training methods improve football fitness?</button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Enhanced Main Chat Area -->
+
+        <div class="main-chat">
+
+            <div class="chat-header">
+
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                    <div>
+
+                        <h2>Ask Your AI Football Coach</h2>
+
+                        <p>Advanced learning AI that adapts to answer any football question intelligently</p>
+
+                    </div>
+
+                    <div style="display: flex; align-items: center;">
+
+                        <div class="status">
+
+                            <div class="status-dot"></div>
+
+                            <span>AI Learning</span>
+
+                        </div>
+
+                        <div class="learning-indicator">
+
+                            <i class="fas fa-brain"></i> ENHANCED
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="messages-container" id="messagesContainer">
+
+                <!-- Welcome Message -->
+
+                <div class="message">
+
+                    <div class="message-assistant">
+
+                        <div class="message-avatar avatar-assistant">
+
+                            <i class="fas fa-brain"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="message-content content-assistant">
+
+                                <div class="analysis-badge">
+
+                                    <i class="fas fa-sparkles"></i> Enhanced AI Mode
+
+                                </div>
+
+                                <div class="structured-content">
+
+                                    <p>🧠 <strong>Welcome to Football Master Enhanced!</strong> I'm your advanced AI football coach powered by learning algorithms.</p>
+
+                                   
+
+                                    <p><strong>🎯 What makes me special:</strong></p>
+
+                                    <ul>
+
+                                        <li><strong>Adaptive Learning:</strong> I analyze your questions and adapt my teaching style</li>
+
+                                        <li><strong>Intelligent Responses:</strong> I provide answers tailored to your skill level</li>
+
+                                        <li><strong>Comprehensive Knowledge:</strong> From basic rules to advanced tactics</li>
+
+                                        <li><strong>Personalized Coaching:</strong> Every answer is customized for maximum learning</li>
+
+                                    </ul>
+
+                                   
+
+                                    <p><strong>🚀 I can help with ANY football question:</strong></p>
+
+                                    <ul>
+
+                                        <li>Rules, regulations, and referee decisions</li>
+
+                                        <li>Technical skills and advanced techniques</li>
+
+                                        <li>Player analysis and tactical insights</li>
+
+                                        <li>Equipment recommendations and training methods</li>
+
+                                        <li>Historical knowledge and modern developments</li>
+
+                                    </ul>
+
+                                </div>
+
+                                <div class="coach-tip">
+
+                                    <div class="coach-tip-content">
+
+                                        <i class="fas fa-lightbulb"></i>
+
+                                        <span>Ask me anything about football - I'll analyze your question and provide the perfect answer for your learning level!</span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="message-time time-assistant">Enhanced AI Coach • just now</div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="chat-input">
+
+                <form class="input-form" onsubmit="sendMessage(event)">
+
+                    <div class="input-container">
+
+                        <input
+
+                            type="text"
+
+                            class="input-field"
+
+                            id="messageInput"
+
+                            placeholder="Ask me any football question - I'll adapt my answer to your level..."
+
+                            autocomplete="off"
+
+                        >
+
+                        <button type="submit" class="send-btn" id="sendBtn">
+
+                            <i class="fas fa-paper-plane"></i>
+
+                        </button>
+
+                    </div>
+
+                    <button type="button" class="mic-btn" onclick="startVoiceInput()">
+
+                        <i class="fas fa-microphone"></i>
+
+                    </button>
+
+                </form>
+
+
+                <div class="quick-actions">
+
+                    <button class="quick-btn" onclick="askQuestion('How can I improve my passing under pressure?')">
+
+                        <i class="fas fa-bolt"></i>
+
+                        Advanced Passing
+
+                    </button>
+
+                    <button class="quick-btn" onclick="askQuestion('Explain the detailed offside rule with examples')">
+
+                        <i class="fas fa-gavel"></i>
+
+                        Offside Rules
+
+                    </button>
+
+                    <button class="quick-btn" onclick="askQuestion('What are the best football boots for different positions?')">
+
+                        <i class="fas fa-shoe-prints"></i>
+
+                        Pro Equipment
+
+                    </button>
+
+                    <button class="quick-btn" onclick="askQuestion('How do professional teams defend against counter-attacks?')">
+
+                        <i class="fas fa-shield-alt"></i>
+
+                        Tactical Defense
+
+                    </button>
+
+                </div>
+
+
+                <div class="disclaimer">
+
+                    <i class="fas fa-brain"></i>
+
+                    Enhanced AI Football Coach - Provides intelligent, adaptive coaching based on your questions and skill level.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Enhanced Football Knowledge Base with Learning Capabilities
+
+        const enhancedFootballKnowledge = {
+
+            // Original knowledge base
+
+            "what are the causes of indirect freekick": {
+
+                answer: `**Indirect free kicks are awarded for several infractions:**
+
+
+**1. Dangerous Play:** Playing in a manner that endangers opponents without making contact
+
+
+**2. Impeding:** Blocking an opponent's path without playing the ball  
+
+
+**3. Goalkeeper Violations:**
+
+   - Handling back-passes from teammates with feet
+
+   - Holding the ball longer than 6 seconds
+
+   - Handling the ball after releasing it and having it touched by a teammate
+
+
+**4. Offside:** When a player is in an offside position and interferes with play
+
+
+**5. Unsporting Behavior:** Dissent, time-wasting, simulation, etc.`,
+
+                coachTip: "Remember, indirect free kicks cannot be scored directly - the ball must touch another player first!",
+
+                category: "rules"
+
+            },
+
+           
+
+            "how to pass accurately": {
+
+                answer: `**Here are key techniques for accurate passing:**
+
+
+**1. Body Position:**
+
+   - Face your target
+
+   - Plant your non-kicking foot firmly beside the ball
+
+   - Keep your head up to see teammates
+
+
+**2. Contact Point:**
+
+   - Use the inside of your foot for short passes
+
+   - Strike the ball with the center of your foot
+
+   - Follow through toward your target
+
+
+**3. Weight of Pass:**
+
+   - Judge the distance and power needed
+
+   - Firm passes for longer distances
+
+   - Gentle touches for close teammates
+
+
+**4. Practice Drills:**
+
+   - Wall passing for first touch
+
+   - Triangle passing with teammates
+
+   - Target practice with cones`,
+
+                coachTip: "The best passers keep their passes simple and always look for the easiest option first!",
+
+                category: "techniques"
+
+            },
+
+
+            // Enhanced entries
+
+            "is jude bellingham better than jamal musiala": {
+
+                answer: `**Comparing Jude Bellingham vs Jamal Musiala:**
+
+
+**Jude Bellingham (England):**
+
+- **Position:** Box-to-box midfielder
+
+- **Strengths:** Leadership, physicality, aerial ability, long-range shooting
+
+- **Style:** Dynamic, aggressive, excellent work rate
+
+- **Age:** Born 2003, younger but very mature
+
+
+**Jamal Musiala (Germany):**
+
+- **Position:** Attacking midfielder/winger
+
+- **Strengths:** Dribbling, creativity, close control, vision
+
+- **Style:** Technical, fluid, excellent in tight spaces
+
+- **Age:** Born 2003, similar age group
+
+
+**Key Differences:**
+
+- Bellingham is more physical and defensive
+
+- Musiala is more creative and technical
+
+- Different playing styles and positions
+
+- Both are exceptional talents for their age`,
+
+                coachTip: "Both players represent the future of football - Bellingham as a complete midfielder, Musiala as a creative force. Their different styles make direct comparison difficult!",
+
+                category: "players"
+
+            },
+
+
+            "what are the best midfielders of all time": {
+
+                answer: `**Greatest Midfielders in Football History:**
+
+
+**Classic Playmakers:**
+
+- **Pelé (Brazil)** - Complete player, creativity and goals
+
+- **Diego Maradona (Argentina)** - Magical dribbling and vision
+
+- **Zinedine Zidane (France)** - Elegance and technique
+
+
+**Central Midfield Legends:**
+
+- **Xavi (Spain)** - Passing master, Barcelona icon
+
+- **Andrea Pirlo (Italy)** - Deep-lying playmaker genius
+
+- **Luka Modrić (Croatia)** - Modern complete midfielder
+
+
+**Box-to-Box Masters:**
+
+- **Frank Lampard (England)** - Goal-scoring midfielder
+
+- **Steven Gerrard (England)** - Leadership and long shots
+
+- **Patrick Vieira (France)** - Physical presence and skill
+
+
+**Defensive Midfielders:**
+
+- **Claude Makélélé (France)** - Defensive specialist
+
+- **Sergio Busquets (Spain)** - Intelligent positioning`,
+
+                coachTip: "Each era had different tactical demands, making these players great in their own contexts. Study their highlights to understand different midfield roles!",
+
+                category: "players"
+
+            },
+
+
+            "are studs an advantage or is barefoot better": {
+
+                answer: `**Football Boots vs Barefoot Playing:**
+
+
+**Football Boots with Studs - Advantages:**
+
+- **Traction:** Better grip on grass and turf
+
+- **Stability:** Prevents slipping during quick movements
+
+- **Protection:** Shields feet from injuries
+
+- **Performance:** Designed for optimal ball contact
+
+- **Weather:** Essential in wet/muddy conditions
+
+
+**Barefoot Playing - Limited Benefits:**
+
+- **Ball Feel:** Direct contact with the ball
+
+- **Natural Movement:** Unrestricted foot movement
+
+- **Strengthening:** Can strengthen foot muscles
+
+
+**Recommendation:**
+
+**Always wear proper football boots** for several reasons:
+
+- Safety first - protection from injuries
+
+- Better performance on grass surfaces
+
+- Required by most leagues and competitions
+
+- Designed specifically for football movements
+
+
+**Boot Selection Tips:**
+
+- Firm Ground (FG) studs for natural grass
+
+- Artificial Grass (AG) studs for synthetic surfaces
+
+- Soft Ground (SG) for wet, muddy conditions`,
+
+                coachTip: "Professional players always wear boots - they're engineered for performance and safety. Invest in quality boots that fit properly!",
+
+                category: "equipment"
+
+            }
+
+        };
+
+
+        // Learning-based question analysis
+
+        function analyzeQuestion(question) {
+
+            const lowerQuestion = question.toLowerCase();
+
+            const words = lowerQuestion.split(/\s+/);
+
+           
+
+            // Determine category
+
+            let category = 'general';
+
+            if (words.some(w => ['rule', 'foul', 'offside', 'penalty', 'referee', 'law'].includes(w))) {
+
+                category = 'rules';
+
+            } else if (words.some(w => ['pass', 'shoot', 'dribble', 'technique', 'skill', 'train'].includes(w))) {
+
+                category = 'techniques';
+
+            } else if (words.some(w => ['player', 'messi', 'ronaldo', 'best', 'compare', 'stats'].includes(w))) {
+
+                category = 'players';
+
+            } else if (words.some(w => ['boot', 'ball', 'equipment', 'gear', 'stud'].includes(w))) {
+
+                category = 'equipment';
+
+            } else if (words.some(w => ['tactic', 'formation', 'strategy', 'defend', 'attack'].includes(w))) {
+
+                category = 'tactics';
+
+            }
+
+           
+
+            // Determine intent
+
+            let intent = 'information';
+
+            if (words.some(w => ['how', 'teach', 'learn', 'improve', 'practice'].includes(w))) {
+
+                intent = 'instruction';
+
+            } else if (words.some(w => ['what', 'when', 'where', 'why', 'explain'].includes(w))) {
+
+                intent = 'explanation';
+
+            } else if (words.some(w => ['best', 'better', 'compare', 'vs', 'versus'].includes(w))) {
+
+                intent = 'comparison';
+
+            }
+
+           
+
+            // Determine complexity
+
+            let complexity = 'basic';
+
+            if (words.length > 10 || words.some(w => ['advanced', 'professional', 'tactical', 'strategy', 'technical'].includes(w))) {
+
+                complexity = 'advanced';
+
+            } else if (words.length > 6 || words.some(w => ['technique', 'skill', 'improve', 'detailed'].includes(w))) {
+
+                complexity = 'intermediate';
+
+            }
+
+           
+
+            // Extract keywords
+
+            const keywords = words.filter(w => w.length > 3 && !['what', 'how', 'when', 'where', 'why', 'does', 'can', 'will'].includes(w));
+
+           
+
+            return { category, intent, keywords, complexity };
+
+        }
+
+
+        // Enhanced answer finding with learning
+
+        function findEnhancedAnswer(question) {
+
+            const lowerQuestion = question.toLowerCase();
+
+            const analysis = analyzeQuestion(question);
+
+           
+
+            // Check for exact matches
+
+            for (const [key, value] of Object.entries(enhancedFootballKnowledge)) {
+
+                if (lowerQuestion.includes(key) || key.includes(lowerQuestion.replace(/[?]/g, ''))) {
+
+                    return { ...value, analysis };
+
+                }
+
+            }
+
+           
+
+            // Generate adaptive response based on analysis
+
+            return {
+
+                answer: generateAdaptiveResponse(question, analysis),
+
+                analysis,
+
+                coachTip: generateAdaptiveCoachTip(analysis)
+
+            };
+
+        }
+
+
+        // Generate adaptive responses based on question analysis
+
+        function generateAdaptiveResponse(question, analysis) {
+
+            const { category, intent, complexity } = analysis;
+
+           
+
+            const responseTemplates = {
+
+                rules: {
+
+                    basic: "That's a fundamental football rule question! Let me explain the basics clearly.",
+
+                    intermediate: "Good question about football regulations. Here's what you need to know:",
+
+                    advanced: "This is an advanced rule interpretation. Let me break down the technical aspects:"
+
+                },
+
+                techniques: {
+
+                    basic: "Great question for improving your football skills! Here's how to start:",
+
+                    intermediate: "That's an excellent technique to master. Here's the step-by-step approach:",
+
+                    advanced: "This is a sophisticated technique used by professional players. Here's the detailed breakdown:"
+
+                },
+
+                players: {
+
+                    basic: "Interesting question about football players! Here's what I can tell you:",
+
+                    intermediate: "That's a thoughtful player comparison. Let me analyze this for you:",
+
+                    advanced: "This requires deep tactical and statistical analysis. Here's my assessment:"
+
+                },
+
+                equipment: {
+
+                    basic: "Good question about football gear! Here's what you should know:",
+
+                    intermediate: "That's important equipment knowledge. Here's my recommendation:",
+
+                    advanced: "This involves technical equipment considerations. Here's the detailed analysis:"
+
+                },
+
+                tactics: {
+
+                    basic: "That's a great tactical question! Let me explain the fundamentals:",
+
+                    intermediate: "Good tactical thinking! Here's how teams approach this:",
+
+                    advanced: "This is sophisticated tactical analysis. Here's the professional perspective:"
+
+                },
+
+                general: {
+
+                    basic: "That's a great football question! Let me help you understand:",
+
+                    intermediate: "Interesting football topic! Here's what I can explain:",
+
+                    advanced: "This touches on advanced football concepts. Let me provide a comprehensive answer:"
+
+                }
+
+            };
+
+           
+
+            const template = responseTemplates[category]?.[complexity] || responseTemplates.general[complexity];
+
+           
+
+            // Add specific content based on the question
+
+            let specificContent = "\n\n";
+
+           
+
+            if (category === 'rules') {
+
+                specificContent += "**Key Rule Points:**\n- Football rules ensure fair play and safety\n- All decisions are based on the Laws of the Game\n- Context and referee interpretation matter\n- Rules can have exceptions in specific situations";
+
+            } else if (category === 'techniques') {
+
+                specificContent += "**Technical Development:**\n- Master the basics before advanced moves\n- Practice with purpose and consistency\n- Focus on both feet for complete skill\n- Apply techniques in game situations";
+
+            } else if (category === 'players') {
+
+                specificContent += "**Player Analysis Framework:**\n- Technical skills and abilities\n- Tactical understanding and intelligence\n- Physical attributes and fitness\n- Mental strength and consistency";
+
+            } else if (category === 'equipment') {
+
+                specificContent += "**Equipment Considerations:**\n- Safety and protection first\n- Performance enhancement\n- Comfort and proper fit\n- Suitable for playing conditions";
+
+            } else if (category === 'tactics') {
+
+                specificContent += "**Tactical Principles:**\n- Team organization and structure\n- Positional play and movement\n- Transition between phases\n- Adaptability to different situations";
+
+            } else {
+
+                specificContent += "**Football Development:**\n- Continuous learning and improvement\n- Understanding multiple aspects of the game\n- Practical application of knowledge\n- Building football intelligence";
+
+            }
+
+           
+
+            return template + specificContent;
+
+        }
+
+
+        // Generate adaptive coach tips
+
+        function generateAdaptiveCoachTip(analysis) {
+
+            const { complexity, intent } = analysis;
+
+           
+
+            const tips = {
+
+                basic: [
+
+                    "Start with the fundamentals - they're the foundation of everything in football!",
+
+                    "Practice regularly, even just 15 minutes a day can make a huge difference!",
+
+                    "Watch professional players to see how they apply these concepts in games!",
+
+                    "Don't rush - master each step before moving to the next level!"
+
+                ],
+
+                intermediate: [
+
+                    "Focus on consistency - being reliable is more valuable than flashy skills!",
+
+                    "Practice both feet equally - it will double your effectiveness on the field!",
+
+                    "Study the game - understanding why is as important as knowing how!",
+
+                    "Challenge yourself with game-like situations during practice!"
+
+                ],
+
+                advanced: [
+
+                    "Perfect your timing - advanced techniques require precise execution!",
+
+                    "Develop your football intelligence - anticipation separates good from great!",
+
+                    "Study different playing styles to expand your tactical understanding!",
+
+                    "Train your weak points - elite players have no significant weaknesses!"
+
+                ]
+
+            };
+
+           
+
+            const tipArray = tips[complexity];
+
+            return tipArray[Math.floor(Math.random() * tipArray.length)];
+
+        }
+
+
+        // Update analysis panel
+
+        function updateAnalysisPanel(analysis) {
+
+            if (analysis) {
+
+                document.getElementById('analysisCategory').textContent = analysis.category;
+
+                document.getElementById('analysisIntent').textContent = analysis.intent;
+
+                document.getElementById('analysisComplexity').textContent = analysis.complexity;
+
+                document.getElementById('analysisPanel').style.display = 'block';
+
+            }
+
+        }
+
+
+        let messages = [];
+
+        let questionCount = 0;
+
+
+        function formatTime() {
+
+            return 'just now';
+
+        }
+
+
+        function formatContent(content) {
+
+            return content
+
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+
+                .replace(/\n/g, '<br>')
+
+                .replace(/• /g, '&nbsp;&nbsp;• ');
+
+        }
+
+
+        function addMessage(content, isUser = false, coachTip = null, analysis = null) {
+
+            const messagesContainer = document.getElementById('messagesContainer');
+
+            const messageDiv = document.createElement('div');
+
+            messageDiv.className = 'message';
+
+           
+
+            const time = formatTime();
+
+           
+
+            if (isUser) {
+
+                messageDiv.innerHTML = `
+
+                    <div class="message-user">
+
+                        <div>
+
+                            <div class="message-content content-user">
+
+                                <p>${content}</p>
+
+                            </div>
+
+                            <div class="message-time time-user">You • ${time}</div>
+
+                        </div>
+
+                        <div class="message-avatar avatar-user">
+
+                            <i class="fas fa-user"></i>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            } else {
+
+                const analysisHtml = analysis ? `
+
+                    <div class="analysis-badge">
+
+                        <i class="fas fa-brain"></i>
+
+                        ${analysis.category} • ${analysis.complexity} • ${analysis.intent}
+
+                    </div>
+
+                ` : '';
+
+               
+
+                const coachTipHtml = coachTip ? `
+
+                    <div class="coach-tip">
+
+                        <div class="coach-tip-content">
+
+                            <i class="fas fa-lightbulb"></i>
+
+                            <span>${coachTip}</span>
+
+                        </div>
+
+                    </div>
+
+                ` : '';
+
+               
+
+                const complexityClass = analysis ? `complexity-${analysis.complexity}` : '';
+
+               
+
+                messageDiv.innerHTML = `
+
+                    <div class="message-assistant">
+
+                        <div class="message-avatar avatar-assistant">
+
+                            <i class="fas fa-brain"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="message-content content-assistant ${complexityClass}">
+
+                                ${analysisHtml}
+
+                                <div class="structured-content">${formatContent(content)}</div>
+
+                                ${coachTipHtml}
+
+                            </div>
+
+                            <div class="message-time time-assistant">Enhanced AI Coach • ${time}</div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+           
+
+            messagesContainer.appendChild(messageDiv);
+
+            messages.push({ content, isUser, timestamp: new Date(), analysis });
+
+            scrollToBottom();
+
+           
+
+            // Update analysis panel with latest question analysis
+
+            if (!isUser && analysis) {
+
+                updateAnalysisPanel(analysis);
+
+            }
+
+        }
+
+
+        function showLoading() {
+
+            const messagesContainer = document.getElementById('messagesContainer');
+
+            const loadingDiv = document.createElement('div');
+
+            loadingDiv.className = 'loading';
+
+            loadingDiv.id = 'loadingMessage';
+
+           
+
+            loadingDiv.innerHTML = `
+
+                <div class="message-avatar avatar-assistant">
+
+                    <i class="fas fa-brain"></i>
+
+                </div>
+
+                <div class="loading-content">
+
+                    <div class="loading-dots">
+
+                        <div class="dots">
+
+                            <div class="dot"></div>
+
+                            <div class="dot"></div>
+
+                            <div class="dot"></div>
+
+                        </div>
+
+                        <span class="loading-text">Analyzing and learning...</span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+           
+
+            messagesContainer.appendChild(loadingDiv);
+
+            scrollToBottom();
+
+        }
+
+
+        function hideLoading() {
+
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            if (loadingMessage) {
+
+                loadingMessage.remove();
+
+            }
+
+        }
+
+
+        function scrollToBottom() {
+
+            const messagesContainer = document.getElementById('messagesContainer');
+
+            setTimeout(() => {
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            }, 100);
+
+        }
+
+
+        function setInputDisabled(disabled) {
+
+            const messageInput = document.getElementById('messageInput');
+
+            const sendBtn = document.getElementById('sendBtn');
+
+            const quickBtns = document.querySelectorAll('.quick-btn');
+
+           
+
+            messageInput.disabled = disabled;
+
+            sendBtn.disabled = disabled;
+
+            quickBtns.forEach(btn => btn.disabled = disabled);
+
+        }
+
+
+        function sendMessage(event) {
+
+            event.preventDefault();
+
+            const messageInput = document.getElementById('messageInput');
+
+            const message = messageInput.value.trim();
+
+           
+
+            if (!message) return;
+
+           
+
+            questionCount++;
+
+           
+
+            // Add user message
+
+            addMessage(message, true);
+
+            messageInput.value = '';
+
+           
+
+            // Show loading and disable input
+
+            setInputDisabled(true);
+
+            showLoading();
+
+           
+
+            // Simulate enhanced AI processing delay
+
+            setTimeout(() => {
+
+                hideLoading();
+
+               
+
+                const response = findEnhancedAnswer(message);
+
+                addMessage(response.answer, false, response.coachTip, response.analysis);
+
+               
+
+                setInputDisabled(false);
+
+                messageInput.focus();
+
+            }, 1500 + Math.random() * 1500); // Longer delay to simulate complex processing
+
+        }
+
+
+        function askQuestion(question) {
+
+            const messageInput = document.getElementById('messageInput');
+
+            messageInput.value = question;
+
+            sendMessage(new Event('submit'));
+
+        }
+
+
+        function startVoiceInput() {
+
+            alert('🎤 Voice input feature coming soon! The enhanced AI will be able to process voice questions with even better understanding.');
+
+        }
+
+
+        // Focus input on page load
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.getElementById('messageInput').focus();
+
+        });
+
+
+        // Handle Enter key
+
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+
+            if (e.key === 'Enter' && !e.shiftKey) {
+
+                e.preventDefault();
+
+                sendMessage(e);
+
+            }
+
+        });
+
+
+        // Enhanced placeholder text rotation
+
+        const placeholders = [
+
+            "Ask me any football question - I'll adapt my answer to your level...",
+
+            "Try asking about advanced tactics, player analysis, or technical skills...",
+
+            "I can explain complex rules, compare players, or teach techniques...",
+
+            "What would you like to learn about football today?"
+
+        ];
+
+
+        let placeholderIndex = 0;
+
+        setInterval(() => {
+
+            const input = document.getElementById('messageInput');
+
+            if (!input.value && document.activeElement !== input) {
+
+                placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+
+                input.placeholder = placeholders[placeholderIndex];
+
+            }
+
+        }, 3000);
+
+    </script>
+
+</body>
+
+</html>
+
